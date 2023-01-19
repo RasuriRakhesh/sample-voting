@@ -1604,3 +1604,5 @@ app.get("/e/:urlString/results", async (request, response) => {
 app.use(function (request, response) {
   response.status(404).render("404");
 });
+
+module.exports = app;
