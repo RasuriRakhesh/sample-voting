@@ -21,10 +21,41 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
 
+    static async markAsVoted(id) {
+      return await this.update(
+        {
+          voted: true,
+        },
+        {
+          where: {
+            id,
+          },
+        }
+      );
+    }
+
     static async getNumberOfVoters(electionID) {
       return await this.count({
         where: {
           electionID,
+        },
+      });
+    }
+
+    static async countVoted(electionID) {
+      return await this.count({
+        where: {
+          electionID,
+          voted: true,
+        },
+      });
+    }
+
+    static async countVotePending(electionID) {
+      return await this.count({
+        where: {
+          electionID,
+          voted: false,
         },
       });
     }
@@ -58,6 +89,12 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Voter.belongsTo(models.Election, {
         foreignKey: "electionID",
+        onDelete: "CASCADE",
+      });
+
+      Voter.hasMany(models.Answer, {
+        foreignKey: "voterID",
+        onDelete: "CASCADE",
       });
     }
   }
@@ -67,14 +104,27 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
+        validate: {
+          notNull: true,
+        },
+      },
+      role: {
+        type: DataTypes.STRING,
+        defaultValue: "voter",
       },
       password: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          notNull: true,
+        },
       },
       voted: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
+        validate: {
+          notNull: true,
+        },
         defaultValue: false,
       },
     },

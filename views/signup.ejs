@@ -7,64 +7,43 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <title><%= title %></title>
 </head>
-<body style="background-color: skyblue;">
-    <div class="relative flex min-h-screen text-gray-800 antialiased flex-col justify-center overflow-hidden bg-gray-50 py-6" style="background-color: bisque;">
-        <div class="relative sm:w-96 mx-auto text-center">
-            <span class="text-2xl font-light ">Create Your admin account</span>
+<body class="bg-gray-900">
+    <nav>
+        <div class="container flex flex-wrap items-center justify-between mx-auto">
+          <a href="/" class="py-2 px-4 flex items-center">
+            <span class="self-center text-xl font-semibold whitespace-nowrap text-white">E-Vote</span>
+          </a>
+        </div>
+    </nav>
+    <div class=" flex  text-white antialiased flex-col overflow-hidden">
+        <div class=" sm:w-96 mx-auto text-center">
+            <span class="text-2xl font-light ">Create a new admin account</span>
             <div>
+                <% if (messages && messages.error && messages.error.length > 0) { %>
+                    <% for(var i=0; i<messages.error.length; i++) { %>
+                        <p class="bg-gray-600 my-3 list-none rounded-md px-4 py-2"><%= messages.error[i] %></p>
+                    <% } %>
+                <% } %>
             </div>
-           <div style="background-color: plum;">
+            <div class="mt-4 bg-gray-700 border border-white shadow-md rounded-lg text-left">
+                <div class="h-2 bg-white rounded-t-md"></div>
                 <form action="/admin" method="post" class="px-8 py-6">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-                   <table>
-                    <tr>
-                       <td>
-                        <label for="firstName" >First name</label>
-                    <input id="firstName" name="firstName" type="text" placeholder="First name" class="border border-gray-300 text-gray-900 rounded p-2 w-full">  
-                </td>
-                </tr>
-                <tr>
-                    <td>
-                    <label for="lastName">Last name</label>
-                    <input id="lastName" name="lastName" type="text" placeholder="Last name" class="border border-gray-300 text-gray-900 rounded p-2 w-full" >
-                </td>
-                </tr>
-                <tr>
-                    <td>
-                   <label for="email" >Email</label>
-                    <input id="email" name="email" type="email" placeholder="Email"  class="border border-gray-300 text-gray-900 rounded p-2 w-full" >
-                </td>
-                </tr>
-                <tr>
-                    <td>
-                    <label for="password" >Password</label>
-                    <input id="password" name="password" type="password" placeholder="Password" class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md">
-                </td>
-                </tr>
-                <tr>
-                    <td>
-                    <button type="submit" class="text-white bg-blue-600 hover:bg-blue-600 font-medium rounded px-3 py-1">Sign up</button><br>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <h1>Already have an account?<a href="/login" class="text-white bg-blue-600 hover:bg-blue-800 font-medium rounded px-3 py-1"> Sign in</a></h1>
-                    </td>
-                </tr>
-                </table>
-                </div> 
+                    <label for="firstName" class="block mt-3 font-semibold">First name</label>
+                    <input id="firstName" name="firstName" type="text" placeholder="First name" class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-gray-500 focus:ring-1 rounded-md text-black" required>
+                    <label for="lastName" class="block mt-3 font-semibold">Last name</label>
+                    <input id="lastName" name="lastName" type="text" placeholder="Last name" class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-gray-500 focus:ring-1 rounded-md text-black">
+                    <label for="email" class="block mt-3 font-semibold">Email</label>
+                    <input id="email" name="email" type="email" placeholder="Email" class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-gray-500 focus:ring-1 rounded-md text-black" required>
+                    <label for="password" class="block mt-3 font-semibold">Password</label>
+                    <input id="password" name="password" type="password" placeholder="Password" class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-gray-500 focus:ring-1 rounded-md text-black" required>
+                    <button type="submit" class="mt-6 w-full bg-gray-500 border border-white text-white py-2 px-6 rounded-md hover:bg-white hover:text-gray-900 transition-all ease-linear">Create account</button>
                 </form>
-                <% if(messages && messages.error && messages.error.length > 0)  { %>
-                    <% for(var i=0; i<messages.error.length; i++) { %>
-                           <div class="bg-red-300 text-red-900 p-2 rounded-lg shadow">
-                            <li> <%= messages.error[i] %></li>
-                           </div>
-                    <% } %>
-                  <% } %>      
             </div>
-        </table>
-            
-    </div>
+            <div class="mt-4">
+                <a href="/login" class="text-sm text-gray-500 hover:text-white transition-all ease-linear">Already have an account? Sign in</a>
+            </div>
+        </div>
     </div>
 </body>
 </html>

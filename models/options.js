@@ -1,5 +1,5 @@
 "use strict";
-const { Model } = require("sequelize");
+const { Model, Op } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Options extends Model {
     /**
@@ -59,6 +59,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "questionID",
         onDelete: "CASCADE",
       });
+
+      Options.hasMany(models.Answer, {
+        foreignKey: "selectedOption",
+        onDelete: "CASCADE",
+      });
     }
   }
   Options.init(
@@ -66,6 +71,9 @@ module.exports = (sequelize, DataTypes) => {
       option: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          notNull: true,
+        },
       },
     },
     {

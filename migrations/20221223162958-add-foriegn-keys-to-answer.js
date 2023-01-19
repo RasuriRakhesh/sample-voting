@@ -5,10 +5,12 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.addColumn("Answers", "voterID", {
       type: Sequelize.DataTypes.INTEGER,
+      onDelete: "CASCADE",
     });
     await queryInterface.addConstraint("Answers", {
       fields: ["voterID"],
       type: "foreign key",
+      onDelete: "CASCADE",
       references: {
         table: "Voters",
         field: "id",
@@ -17,10 +19,12 @@ module.exports = {
 
     await queryInterface.addColumn("Answers", "electionID", {
       type: Sequelize.DataTypes.INTEGER,
+      onDelete: "CASCADE",
     });
     await queryInterface.addConstraint("Answers", {
       fields: ["electionID"],
       type: "foreign key",
+      onDelete: "CASCADE",
       references: {
         table: "Elections",
         field: "id",
@@ -29,10 +33,12 @@ module.exports = {
 
     await queryInterface.addColumn("Answers", "questionID", {
       type: Sequelize.DataTypes.INTEGER,
+      onDelete: "CASCADE",
     });
     await queryInterface.addConstraint("Answers", {
       fields: ["questionID"],
       type: "foreign key",
+      onDelete: "CASCADE",
       references: {
         table: "Questions",
         field: "id",
@@ -41,6 +47,7 @@ module.exports = {
 
     await queryInterface.addColumn("Answers", "selectedOption", {
       type: Sequelize.DataTypes.INTEGER,
+      allowNull: false,
     });
     await queryInterface.addConstraint("Answers", {
       fields: ["selectedOption"],

@@ -67,10 +67,17 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Questions.belongsTo(models.Election, {
         foreignKey: "electionID",
+        onDelete: "CASCADE",
       });
 
       Questions.hasMany(models.Options, {
         foreignKey: "questionID",
+        onDelete: "CASCADE",
+      });
+
+      Questions.hasMany(models.Answer, {
+        foreignKey: "questionID",
+        onDelete: "CASCADE",
       });
     }
   }
@@ -79,6 +86,9 @@ module.exports = (sequelize, DataTypes) => {
       question: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          notNull: true,
+        },
       },
       description: DataTypes.STRING,
     },

@@ -30,6 +30,21 @@ module.exports = (sequelize, DataTypes) => {
       );
     }
 
+    static endElection(id) {
+      return this.update(
+        {
+          running: false,
+          ended: true,
+        },
+        {
+          returning: true,
+          where: {
+            id,
+          },
+        }
+      );
+    }
+
     static getElections(adminID) {
       return this.findAll({
         where: {
@@ -55,6 +70,29 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
 
+    static updateElection({ urlString, electionName, id }) {
+      return this.update(
+        {
+          urlString,
+          electionName,
+        },
+        {
+          returning: true,
+          where: {
+            id,
+          },
+        }
+      );
+    }
+
+    static deleteElection(id) {
+      return this.destroy({
+        where: {
+          id,
+        },
+      });
+    }
+
     static associate(models) {
       // define association here
       Election.belongsTo(models.Admin, {
@@ -63,10 +101,17 @@ module.exports = (sequelize, DataTypes) => {
 
       Election.hasMany(models.Questions, {
         foreignKey: "electionID",
+        onDelete: "CASCADE",
       });
 
       Election.hasMany(models.Voter, {
         foreignKey: "electionID",
+        onDelete: "CASCADE",
+      });
+
+      Election.hasMany(models.Answer, {
+        foreignKey: "electionID",
+        onDelete: "CASCADE",
       });
     }
   }
@@ -75,11 +120,17 @@ module.exports = (sequelize, DataTypes) => {
       electionName: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          notNull: true,
+        },
       },
       urlString: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
+        validate: {
+          notNull: true,
+        },
       },
       running: {
         type: DataTypes.BOOLEAN,
