@@ -2,14 +2,14 @@
   "development": {
     "username": "postgres",
     "password": "test123",
-    "database": "RASURI RAKHESH DATABASE",
+    "database": "online_voting_dev",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
     "username": "postgres",
     "password": "test123",
-    "database": "RASURI RAKHESH DATABASE",
+    "database": "online_voting_test",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
